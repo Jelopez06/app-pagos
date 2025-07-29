@@ -59,10 +59,14 @@ if archivo is not None:
     df["PAGO"] = df["HORAS_TRABAJADAS"] * 1000
 
     desglose = df.groupby("EMPLEADO")[["HORAS_TRABAJADAS", "PAGO"]].sum().sort_values(by="PAGO", ascending=False)
+    desglose["HORAS_TRABAJADAS"] = desglose["HORAS_TRABAJADAS"].round(2)
+    desglose["PAGO"] = desglose["PAGO"].apply(lambda x: f"{x:,.0f}".replace(",", "."))
+
     pago_total = df["PAGO"].sum()
+    pago_total_formateado = f"₡{pago_total:,.0f}".replace(",", ".")
 
     st.subheader("Desglose por empleado")
     st.dataframe(desglose)
 
     st.subheader("Pago total general")
-    st.metric("Total a pagar", f"${pago_total:,.0f}")
+    st.metric("Total a pagar", pago_total_formateado)
