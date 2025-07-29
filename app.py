@@ -7,7 +7,7 @@ st.title("Cálculo de Pagos - Oishii")
 
 archivo = st.file_uploader("Sube el archivo Excel", type=["xlsx"])
 
-if archivo:
+if archivo is not None:
     df_raw = pd.read_excel(archivo, sheet_name="Asistencia")
 
     colnames = ["FECHA", "DÍA", "EMPLEADO", "ENTRADA", "SALIDA_ALM", "ENTRADA_ALM", "SALIDA_G", "HRS_EXTRA"]
