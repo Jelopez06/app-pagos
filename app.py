@@ -58,10 +58,20 @@ if archivo is not None:
     df["HORAS_TRABAJADAS"] = df.apply(calcular_horas, axis=1)
     df["PAGO"] = df["HORAS_TRABAJADAS"] * 1000
 
+    # Agrupar por empleado
     desglose = df.groupby("EMPLEADO")[["HORAS_TRABAJADAS", "PAGO"]].sum().sort_values(by="PAGO", ascending=False)
-    desglose["HORAS_TRABAJADAS"] = desglose["HORAS_TRABAJADAS"].round(2)
-    desglose["PAGO"] = desglose["PAGO"].apply(lambda x: f"{x:,.0f}".replace(",", "."))
 
+    # Renombrar columnas para legibilidad
+    desglose = desglose.rename(columns={
+        "HORAS_TRABAJADAS": "Horas trabajadas",
+        "PAGO": "Pago"
+    })
+
+    # Formato de columnas
+    desglose["Horas trabajadas"] = desglose["Horas trabajadas"].round(2)
+    desglose["Pago"] = desglose["Pago"].apply(lambda x: f"₡{x:,.0f}".replace(",", "."))
+
+    # Total general
     pago_total = df["PAGO"].sum()
     pago_total_formateado = f"₡{pago_total:,.0f}".replace(",", ".")
 
