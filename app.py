@@ -58,7 +58,7 @@ if archivo is not None:
     df["HORAS_TRABAJADAS"] = df.apply(calcular_horas, axis=1)
     df["PAGO"] = df["HORAS_TRABAJADAS"] * 1000
 
-    desglose = df.groupby("EMPLEADO")[["HORAS TRABAJADAS", "PAGO"]].sum().sort_values(by="PAGO", ascending=False)
+    desglose = df.groupby("EMPLEADO")[["HORAS-TRABAJADAS", "PAGO"]].sum().sort_values(by="PAGO", ascending=False)
     desglose["HORAS_TRABAJADAS"] = desglose["HORAS_TRABAJADAS"].round(2)
     desglose["PAGO"] = desglose["PAGO"].apply(lambda x: f"{x:,.0f}".replace(",", "."))
 
