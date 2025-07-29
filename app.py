@@ -56,7 +56,7 @@ if archivo is not None:
             return 0
 
     df["HORAS_TRABAJADAS"] = df.apply(calcular_horas, axis=1)
-    df["PAGO"] = df["HORAS_TRABAJADAS"] * 1000
+    df["PAGO"] = df["HORAS_TRABAJADAS"] * 1500
 
     # Agrupar por empleado
     desglose = df.groupby("EMPLEADO")[["HORAS_TRABAJADAS", "PAGO"]].sum().sort_values(by="PAGO", ascending=False)
