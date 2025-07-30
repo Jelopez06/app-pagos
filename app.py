@@ -10,7 +10,7 @@ archivo = st.file_uploader("Sube el archivo Excel", type=["xlsx"])
 if archivo is not None:
     df_raw = pd.read_excel(archivo, sheet_name="Asistencia")
 
-    colnames = ["FECHA", "DÍA", "EMPLEADO", "ENTRADA", "SALIDA_ALM", "ENTRADA_ALM", "SALIDA_G", "HRS_EXTRA"]
+    colnames = ["FECHA", "DÍA", "EMPLEADO", "ENTRADA", "SALIDA_ALM", "ENTRADA_ALM", "SALIDA", "HRS_EXTRA"]
     bloque1 = df_raw.iloc[:, 0:8].copy()
     bloque1.columns = colnames
 
@@ -31,16 +31,16 @@ if archivo is not None:
             except:
                 return None
 
-    for col in ["ENTRADA", "SALIDA_ALM", "ENTRADA_ALM", "SALIDA_G"]:
+    for col in ["ENTRADA", "SALIDA_ALM", "ENTRADA_ALM", "SALIDA"]:
         df_total[col] = df_total[col].apply(convertir_hora)
 
-    df = df_total.dropna(subset=["ENTRADA", "SALIDA_G"]).copy()
+    df = df_total.dropna(subset=["ENTRADA", "SALIDA"]).copy()
 
     def calcular_horas(row):
         try:
             fmt = "%H:%M:%S"
             entrada = datetime.strptime(row["ENTRADA"].strftime(fmt), fmt)
-            salida = datetime.strptime(row["SALIDA_G"].strftime(fmt), fmt)
+            salida = datetime.strptime(row["SALIDA"].strftime(fmt), fmt)
 
             if pd.notna(row["SALIDA_ALM"]) and pd.notna(row["ENTRADA_ALM"]):
                 salida_alm = datetime.strptime(row["SALIDA_ALM"].strftime(fmt), fmt)
